@@ -79,7 +79,6 @@ async def start_live_stream_async():
                         "y": -1,
                         "timestamp": latest_gaze[1]
                     }))
-                #await asyncio.sleep(1 / LIVE_FRAME_RATE)  #proar sin esto
 
 # Stream Thread
 def stream_thread():
