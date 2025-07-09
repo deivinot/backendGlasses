@@ -5,3 +5,5 @@ Este es un proyecto de investigación de uso con el dispositivo Tobbi Pro Glasse
 
 Este proyecto usa la librería g3pylib y está sujeta a la Tobii Pro SDK License Agreement y su uso está permitido únicamente con hardware oficial de Tobii con fines de investigación o desarrollo. Para usar la librería se tiene que descargar o clonar del repositorio oficial: https://github.com/tobiipro/g3pylib
 
+Por otro lado, también se encuentra en el repositorio un prototipo en Python de un posible uso de las Tobii Pro Glasses 3 en una aplicación nativa. Se encuentra en: /PrototipoPython/app_prototipo.py.
+
