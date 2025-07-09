@@ -10,6 +10,7 @@ from g3pylib.g3typing import URI
 
 app = Flask(__name__)
 
+# Variables de la transmisión
 LIVE_FRAME_RATE = 25
 WEBSOCKET_PORT = 8765
 connected_clients = set()
@@ -21,7 +22,7 @@ stream_task = None
 loop = None
 websocket_server = None
 
-# WebSocket broadcast
+# Función para enviar mensajes a los suscriptores del WebSocket
 async def broadcast_to_clients(message: str):
     disconnected = set()
     for client in connected_clients:
@@ -31,8 +32,8 @@ async def broadcast_to_clients(message: str):
             disconnected.add(client)
     connected_clients.difference_update(disconnected)
 
-# WebSocket handler
-async def websocket_handler(websocket):  #path
+# Función para manejar conexiones al Websocket
+async def websocket_handler(websocket):
     print("Cliente conectado")
     connected_clients.add(websocket)
     try:
@@ -41,7 +42,7 @@ async def websocket_handler(websocket):  #path
         print("Cliente desconectado")
         connected_clients.remove(websocket)
 
-# Streaming async loop
+# Creación de bucle de transmisión de datos asíncrono
 async def start_live_stream_async():
     global websocket_server, glasses_instance
     if glasses_instance is None:
@@ -80,7 +81,7 @@ async def start_live_stream_async():
                         "timestamp": latest_gaze[1]
                     }))
 
-# Stream Thread
+# Hilo para lanzar la transmisión de datos
 def stream_thread():
     global loop
     loop = asyncio.new_event_loop()
@@ -124,7 +125,7 @@ def disconnect_glasses():
         print(f"Error al desconectar las gafas: {e}")
         return jsonify({"status": "Error al desconectar las gafas"}), 500
 
-# Iniciar stream
+# Endpoint para iniciar stream
 @app.route("/start", methods=["POST"])
 def start_stream():
     global stream_running, stream_task
@@ -138,7 +139,7 @@ def start_stream():
 
     return jsonify({"status": "Stream iniciado"}), 200
 
-# Detener stream
+# Endpoint para detener stream
 @app.route("/stop", methods=["POST"])
 def stop_stream():
     global stream_running, stream_task, loop, websocket_server
@@ -169,7 +170,7 @@ def stop_stream():
 
     return jsonify({"status": "Stream detenido"}), 200
 
-# Calibrar
+# Endpoint para calibrar el dispositivo de seguimiento
 @app.route("/calibrate", methods=["POST"])
 async def calibrate():
     resultado=None
